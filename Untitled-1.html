@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ultra Premium Gift 💖</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  font-family:Arial;
+  color:white;
+  background:#000;
+}
+
+/* 🌌 background glow */
+body::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,0,80,0.18), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(255,0,50,0.10), transparent 60%);
+}
+
+/* scenes */
+.scene{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+
+  opacity:0;
+  pointer-events:none;
+  transition:0.7s ease;
+}
+
+.scene.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* buttons */
+button{
+  padding:12px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ff3366;
+  color:white;
+  cursor:pointer;
+  margin:5px;
+}
+
+/* 📖 album */
+.slide{
+  width:280px;
+  height:370px;
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 0 25px rgba(255,0,80,0.4);
+}
+
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  opacity:0;
+  transition:1s ease;
+}
+
+.slide img.active{
+  opacity:1;
+}
+
+/* 💌 message */
+.message{
+  display:none;
+  padding:20px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.07);
+  text-align:center;
+}
+
+/* ❌ buttons */
+#choices{
+  display:block;
+}
+
+/* ⭐ STAR (soft) */
+.star{
+  position:absolute;
+  width:2px;
+  height:120px;
+  background:linear-gradient(white,transparent);
+  animation:fall 5s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes fall{
+  from{transform:translateY(-20vh);}
+  to{transform:translateY(120vh);}
+}
+
+/* ❤️ HEARTS (enhanced) */
+.heart{
+  position:absolute;
+  font-size:18px;
+  animation:heartFall 7s linear forwards;
+  opacity:0.8;
+}
+
+@keyframes heartFall{
+  from{transform:translateY(-20vh) scale(0.8);}
+  to{transform:translateY(120vh) scale(1.3);}
+}
+
+/* 🌠 METEOR */
+.meteor{
+  position:absolute;
+  width:3px;
+  height:160px;
+  background:linear-gradient(red,transparent);
+  transform:rotate(45deg);
+  animation:meteor 2.2s linear forwards;
+  opacity:0.9;
+}
+
+@keyframes meteor{
+  from{transform:translate(-10vw,-10vh) rotate(45deg);}
+  to{transform:translate(120vw,120vh) rotate(45deg);}
+}
+
+/* 💖 HEART WALL (NEW STYLE) */
+.heartWall{
+  position:relative;
+  width:320px;
+  height:280px;
+}
+
+.heartWall img{
+  position:absolute;
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:15px;
+  box-shadow:0 0 15px rgba(255,0,80,0.4);
+  animation:float 4s ease-in-out infinite;
+}
+
+/* heart shape layout */
+.img1{top:0;left:110px;}
+.img2{top:40px;left:40px;}
+.img3{top:40px;left:180px;}
+.img4{top:110px;left:0;}
+.img5{top:110px;left:110px;}
+.img6{top:110px;left:220px;}
+.img7{top:190px;left:110px;}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
+  <source src="music.mp3">
+</audio>
+
+<!-- 1 -->
+<div class="scene active" id="s1">
+  <h1>💖 Welcome</h1>
+  <button onclick="start()">Start</button>
+</div>
+
+<!-- 2 ALBUM -->
+<div class="scene" id="s2">
+  <div class="slide">
+    <img class="active" src="photo1.jpg">
+    <img src="photo2.jpg">
+    <img src="photo3.jpg">
+    <img src="photo4.jpg">
+    <img src="photo5.jpg">
+    <img src="photo6.jpg">
+    <img src="photo7.jpg">
+  </div>
+</div>
+
+<!-- 3 MESSAGE -->
+<div class="scene" id="s3">
+
+  <h2>💌 هل تفتح الرسالة؟</h2>
+
+  <div id="choices">
+    <button onclick="openLetter()">Yes</button>
+    <button id="noBtn" onmouseover="runAway()">No</button>
+  </div>
+
+  <div class="message" id="msg">
+    <h2>💖 Message</h2>
+    <p>You are my favorite memory ✨</p>
+    <button onclick="go(4)">Continue</button>
+  </div>
+
+</div>
+
+<!-- 4 HEART WALL -->
+<div class="scene" id="s4">
+  <div class="heartWall">
+    <img class="img1" src="photo1.jpg">
+    <img class="img2" src="photo2.jpg">
+    <img class="img3" src="photo3.jpg">
+    <img class="img4" src="photo4.jpg">
+    <img class="img5" src="photo5.jpg">
+    <img class="img6" src="photo6.jpg">
+    <img class="img7" src="photo7.jpg">
+  </div>
+
+  <h2>💖 Us Forever 💖</h2>
+</div>
+
+<script>
+
+/* start */
+function start(){
+  document.getElementById("music").play().catch(()=>{});
+  go(2);
+}
+
+/* navigation */
+function go(n){
+  document.querySelectorAll(".scene").forEach(s=>{
+    s.classList.remove("active");
+  });
+
+  setTimeout(()=>{
+    document.getElementById("s"+n).classList.add("active");
+  },120);
+}
+
+/* album */
+let imgs=document.querySelectorAll(".slide img");
+let i=0;
+
+setInterval(()=>{
+  if(document.getElementById("s2").classList.contains("active")){
+    nextImg();
+  }
+},2000);
+
+function nextImg(){
+  imgs[i].classList.remove("active");
+  i=(i+1)%imgs.length;
+
+  if(i===0){
+    setTimeout(()=>go(3),600);
+    return;
+  }
+
+  imgs[i].classList.add("active");
+}
+
+/* message */
+function openLetter(){
+  document.getElementById("choices").style.display="none";
+  document.getElementById("msg").style.display="block";
+}
+
+/* no escape */
+function runAway(){
+  let b=document.getElementById("noBtn");
+  b.style.transform=`translate(${Math.random()*160}px,${Math.random()*60}px)`;
+}
+
+/* ⭐ stars */
+setInterval(()=>{
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),5000);
+},90);
+
+/* ❤️ hearts (more) */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+},200);
+
+/* 🌠 meteors */
+setInterval(()=>{
+  let m=document.createElement("div");
+  m.className="meteor";
+  m.style.left=Math.random()*100+"vw";
+  document.body.appendChild(m);
+  setTimeout(()=>m.remove(),2200);
+},1800);
+
+</script>
+
+</body>
+</html>
